@@ -11,7 +11,7 @@ describe('EyesServiceTest', () => {
 
   it('checkWindow', () => {
     try {
-      browser.eyesCheckWindow('main', Target.window());
+      browser.eyesCheckWindow('main');
     } catch (e) {
       console.error(e);
     }
