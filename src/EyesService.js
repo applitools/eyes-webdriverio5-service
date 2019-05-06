@@ -42,30 +42,14 @@ class EyesService {
 
 
   before(config, capabilities) {
-    global.browser.addCommand('setEyesConfig', (config) => {
-      this.eyes.setConfiguration(config);
-    });
 
-    global.browser.addCommand('checkWindow', (title) => {
+    global.browser.addCommand('eyesCheckWindow', (title) => {
       if (!title) {
         throw new Error(`Title can't be null`);
       }
       return this.eyes.check(title, Target.window());
     });
 
-    global.browser.addCommand('check', (title, checkSettings) => {
-      if (!title) {
-        throw new Error(`Title can't be null`);
-      }
-      return this.eyes.check(title, checkSettings);
-    });
-
-    global.browser.addCommand('checkFrame', (element, matchTimeout, tag) => {
-      if (!element) {
-        throw new Error(`Element can't be null`);
-      }
-      return this.eyes.checkFrame(element, matchTimeout, tag);
-    });
   }
 
 
