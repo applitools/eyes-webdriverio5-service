@@ -1,6 +1,6 @@
 'use strict';
 
-const {Target} = require('@applitools/eyes-webdriverio');
+const {By, Target} = require('@applitools/eyes-webdriverio');
 
 describe('EyesServiceTest', () => {
 
@@ -11,7 +11,16 @@ describe('EyesServiceTest', () => {
 
   it('checkWindow', () => {
     try {
-      browser.eyesCheckWindow('main');
+      browser.eyesCheckWindow('main', Target.window());
+    } catch (e) {
+      console.error(e);
+    }
+  });
+
+
+  it('checkRegion', () => {
+    try {
+      browser.eyesCheckWindow('main', Target.region(By.id("overflowing-div")));
     } catch (e) {
       console.error(e);
     }

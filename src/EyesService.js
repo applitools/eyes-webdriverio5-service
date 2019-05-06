@@ -43,11 +43,11 @@ class EyesService {
 
   before(config, capabilities) {
 
-    global.browser.addCommand('eyesCheckWindow', (title) => {
+    global.browser.addCommand('eyesCheckWindow', (title, checkSettings = Target.window()) => {
       if (!title) {
         throw new Error(`Title can't be null`);
       }
-      return this.eyes.check(title, Target.window());
+      return this.eyes.check(title, checkSettings);
     });
 
   }
