@@ -27,5 +27,14 @@ describe('EyesServiceTest', () => {
   });
 
 
+  it.skip('checkFrame', () => {
+    try {
+      browser.eyesCheckWindow('main', Target.frame("frame1").fully());
+    } catch (e) {
+      console.error(e);
+    }
+  });
+
+
 
 });

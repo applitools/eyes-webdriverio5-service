@@ -5,6 +5,7 @@
   "keywords": [
     "wdio-service"
   ],
+  "repository": "https://github.com/yuriieasternpeak/eyes.wdio.service.git",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/wdio"
@@ -12,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@applitools/eyes-webdriverio": "^5.1.0-beta.1"
+    "@applitools/eyes-webdriverio": "^5.1.1"
   },
   "devDependencies": {
     "@wdio/cli": "^5.8.1",
