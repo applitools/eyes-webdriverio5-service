@@ -5,7 +5,6 @@
   "keywords": [
     "wdio-service"
   ],
-  "repository": "https://github.com/yuriieasternpeak/eyes.wdio.service.git",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/wdio"
