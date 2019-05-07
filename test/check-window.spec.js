@@ -10,31 +10,22 @@ describe('EyesServiceTest', () => {
 
 
   it('checkWindow', () => {
-    try {
-      browser.eyesCheckWindow('main');
-    } catch (e) {
-      console.error(e);
-    }
+    browser.eyesCheckWindow('main');
+  });
+
+  it('checkWindow - no title', () => {
+    browser.eyesCheckWindow();
   });
 
 
-  it('checkRegion', () => {
-    try {
-      browser.eyesCheckWindow('main', Target.region(By.id("overflowing-div")));
-    } catch (e) {
-      console.error(e);
-    }
+  it.skip('checkRegion', () => {
+    browser.eyesCheckWindow('main', Target.region(By.id("overflowing-div")));
   });
 
 
   it.skip('checkFrame', () => {
-    try {
-      browser.eyesCheckWindow('main', Target.frame("frame1").fully());
-    } catch (e) {
-      console.error(e);
-    }
+    browser.eyesCheckWindow('main', Target.frame("frame1"));
   });
-
 
 
 });
