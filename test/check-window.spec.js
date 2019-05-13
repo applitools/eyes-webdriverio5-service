@@ -17,11 +17,11 @@ describe('EyesServiceTest', () => {
   });
 
   it('checkRegion', () => {
-    browser.eyesCheckWindow('main', Target.region(By.id("overflowing-div")));
+    browser.eyesCheckWindow('region', Target.region(By.id("overflowing-div")));
   });
 
   it('checkFrame', () => {
-    browser.eyesCheckWindow('main', Target.frame("frame1"));
+    browser.eyesCheckWindow('frame', Target.frame("frame1"));
   });
 
 });

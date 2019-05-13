@@ -41,7 +41,7 @@ class EyesService {
 
   beforeTest(test) {
     const appName = this.eyes.getConfiguration().getAppName() || test.parent;
-    const testName = this.eyes.getConfiguration().getTestName() || test.title;
+    const testName = test.title;
     const viewport = this.eyes.getConfiguration().getViewportSize() || DEFAULT_VIEWPORT;
 
     global.browser.call(() => this.eyes.open(global.browser, appName, testName, viewport));
