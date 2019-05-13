@@ -1,6 +1,6 @@
 'use strict';
 
-const {Configuration, Eyes, Target, StitchMode} = require('@applitools/eyes-webdriverio');
+const {Configuration, Eyes, Target} = require('@applitools/eyes-webdriverio');
 
 
 const DEFAULT_VIEWPORT = {
@@ -25,17 +25,6 @@ class EyesService {
     if (eyesConfig) {
       this.eyes.setConfiguration(eyesConfig);
 
-      let stitchMode = StitchMode.CSS;
-      if (eyesConfig.stitchMode) {
-        switch (eyesConfig.stitchMode) {
-          case 'CSS':
-            this.eyes.setStitchMode(stitchMode.CSS);
-            break;
-          default:
-            this.eyes.setStitchMode(stitchMode.SCROLL);
-        }
-      }
-
       this.eyes.setHideScrollbars(true);
     }
   }
@@ -51,15 +40,15 @@ class EyesService {
 
 
   beforeTest(test) {
-    const appName = test.parent;
-    const testName = test.title;
-    const viewport = DEFAULT_VIEWPORT;
+    const appName = this.eyes.getConfiguration().getAppName() || test.parent;
+    const testName = this.eyes.getConfiguration().getTestName() || test.title;
+    const viewport = this.eyes.getConfiguration().getViewportSize() || DEFAULT_VIEWPORT;
 
     global.browser.call(() => this.eyes.open(global.browser, appName, testName, viewport));
   }
 
 
-  async afterTest(exitCode, config, capabilities) {
+  afterTest(exitCode, config, capabilities) {
     try {
       const result = browser.call(() => this.eyes.close(false));
     } catch (e) {
