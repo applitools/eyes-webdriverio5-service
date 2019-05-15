@@ -1,6 +1,6 @@
 'use strict';
 
-const {Configuration, Eyes, Target} = require('@applitools/eyes-webdriverio');
+const {Configuration, Eyes, StitchMode, Target} = require('@applitools/eyes-webdriverio');
 
 
 const DEFAULT_VIEWPORT = {
@@ -24,6 +24,17 @@ class EyesService {
     const eyesConfig = config.eyes;
     if (eyesConfig) {
       this.eyes.setConfiguration(eyesConfig);
+
+      let stitchMode = StitchMode.SCROLL;
+      if (eyesConfig.stitchMode) {
+        switch (eyesConfig.stitchMode) {
+          case 'CSS':
+            this.eyes.setStitchMode(stitchMode.CSS);
+            break;
+          default:
+            this.eyes.setStitchMode(stitchMode.SCROLL);
+        }
+      }
 
       this.eyes.setHideScrollbars(true);
     }
