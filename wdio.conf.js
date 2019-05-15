@@ -136,9 +136,6 @@ exports.config = {
   },
   eyes: {
     batch: 'WebDriverIO eyes-service tests',
-    viewport: {width: 600, height: 500},
-    appName: 'Test App Name - Eyes Service',
-    stitchMode: 'CSS'
   },
   //
   // =====
