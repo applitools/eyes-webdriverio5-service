@@ -25,7 +25,7 @@ class EyesService {
     if (eyesConfig) {
       this.eyes.setConfiguration(eyesConfig);
     }
-    this.eyes.setHideScrollbars(true);
+    this.eyes.setHideScrollbars(false);
   }
 
 

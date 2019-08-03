@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@applitools/eyes-webdriverio": "^5.4.0"
+    "@applitools/eyes-webdriverio": "https://github.com/yuriieasternpeak/eyes.webdriverio.javascript5.git#issue/nyt-scroll"
   },
   "devDependencies": {
     "@wdio/cli": "^5.8.3",
