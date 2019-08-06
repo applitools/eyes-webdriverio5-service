@@ -30,11 +30,13 @@ class EyesService {
 
 
   before(config, capabilities) {
-
     global.browser.addCommand('eyesCheckWindow', (title, checkSettings = Target.window().fully()) => {
       return this.eyes.check(title, checkSettings);
     });
 
+    global.browser.addCommand('eyesSetScrollRootElement', (element) => {
+      return this.eyes.setScrollRootElement(element);
+    });
   }
 
 
