@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "link": "npm link && npm link @applitools/eyes-webdriverio5-service",
-    "test": "./node_modules/.bin/wdio"
+    "test": "wdio"
   },
   "author": "",
   "license": "ISC",
