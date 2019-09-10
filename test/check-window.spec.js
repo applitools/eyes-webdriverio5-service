@@ -8,12 +8,20 @@ describe('EyesServiceTest', () => {
     browser.url('http://applitools.github.io/demo/TestPages/FramesTestPage/');
   });
 
-  it('checkWindow', async () => {
-    await browser.eyesCheckWindow('main');
+  afterEach(() => {
+    // console.log(browser.getTestResults()._name);
   });
 
-  it('checkWindow - no title', async () => {
-    await browser.eyesCheckWindow();
+  after(() => {
+    // console.log(browser.getAllTestResults());
+  });
+
+  it('checkWindow', () => {
+    browser.eyesCheckWindow('main');
+  });
+
+  it('checkWindow - no title', () => {
+    browser.eyesCheckWindow();
   });
 
   it('checkRegion', () => {
