@@ -1,6 +1,6 @@
 {
   "name": "@applitools/eyes-webdriverio5-service",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "",
   "keywords": [
     "wdio-service"
@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "link": "npm link && npm link @applitools/eyes-webdriverio5-service",
-    "test": "./node_modules/.bin/wdio"
+    "test": "wdio"
   },
   "author": "",
   "license": "ISC",

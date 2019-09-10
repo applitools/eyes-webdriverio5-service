@@ -46,6 +46,10 @@ class EyesService {
       return this.eyes.check(title, checkSettings);
     });
 
+    browser.addCommand('eyesSetScrollRootElement', (element) => {
+      return this.eyes.setScrollRootElement(element);
+    });
+
     browser.addCommand('eyesTag', (tagName, tagValue) => {
       return this.eyes.addProperty(tagName, tagValue);
     });

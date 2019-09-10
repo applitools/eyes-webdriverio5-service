@@ -136,6 +136,7 @@ exports.config = {
   },
   eyes: {
     batch: 'WebDriverIO eyes-service tests',
+    // stitchMode: 'CSS'
   },
   //
   // =====
