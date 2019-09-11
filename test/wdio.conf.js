@@ -1,3 +1,6 @@
+const path = require('path');
+const { EyesService } = require('../index');
+
 exports.config = {
   //
   // ====================
@@ -17,7 +20,7 @@ exports.config = {
   // directory is where your package.json resides, so `wdio` will be called from there.
   //
   specs: [
-    './test/*.spec.js'
+    path.join(__dirname, '*.spec.js')
   ],
   // Patterns to exclude.
   exclude: [
@@ -108,8 +111,8 @@ exports.config = {
   // Services take over a specific job you don't want to take care of. They enhance
   // your test setup with almost no effort. Unlike plugins, they don't add new
   // commands. Instead, they hook themselves up into the test process.
-  services: ['selenium-standalone', '@applitools/eyes-webdriverio5-service'], // npm link && npm link @applitools/eyes-webdriverio5-service
-  // services: ['selenium-standalone', [EyesService]], // @applitools/eyes-webdriverio5-service
+  // services: ['selenium-standalone', '@applitools/eyes-webdriverio5-service'],
+  services: ['selenium-standalone', [EyesService]],
   //
   // Framework you want to run your specs with.
   // The following are supported: Mocha, Jasmine, and Cucumber
@@ -136,7 +139,10 @@ exports.config = {
   },
   eyes: {
     batch: 'WebDriverIO eyes-service tests',
-    // stitchMode: 'CSS'
+    // stitchMode: 'CSS',
+    properties: [
+      {name: 'propName', value: 'propValue'}
+    ]
   },
   //
   // =====

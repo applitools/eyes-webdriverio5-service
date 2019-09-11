@@ -1,62 +1,90 @@
 'use strict';
 
-const {Configuration, Eyes, Target} = require('@applitools/eyes-webdriverio');
+const {Eyes, Target} = require('@applitools/eyes-webdriverio');
 
 
 const DEFAULT_VIEWPORT = {
-  width: 800,
-  height: 600
+    width: 800,
+    height: 600
 };
 
-
 class EyesService {
+    constructor() {
+        this.eyes = new Eyes();
 
-  /**
-   *
-   * @param {Configuration} [config]
-   */
-  constructor(config) {
-    this.eyes = new Eyes();
-  }
-
-
-  beforeSession(config) {
-    const eyesConfig = config.eyes;
-    if (eyesConfig) {
-      this.eyes.setConfiguration(eyesConfig);
+        this.eyes.setHideScrollbars(true);
     }
-    this.eyes.setHideScrollbars(true);
-  }
 
-
-  before(config, capabilities) {
-    global.browser.addCommand('eyesCheckWindow', (title, checkSettings = Target.window().fully()) => {
-      return this.eyes.check(title, checkSettings);
-    });
-
-    global.browser.addCommand('eyesSetScrollRootElement', (element) => {
-      return this.eyes.setScrollRootElement(element);
-    });
-  }
-
-
-  async beforeTest(test) {
-    const appName = this.eyes.getConfiguration().getAppName() || test.parent;
-    const testName = test.title;
-    const viewport = this.eyes.getConfiguration().getViewportSize() || DEFAULT_VIEWPORT;
-
-    await global.browser.call(() => this.eyes.open(global.browser, appName, testName, viewport));
-  }
-
-
-  async afterTest(exitCode, config, capabilities) {
-    try {
-      const result = await browser.call(() => this.eyes.close(false));
-    } catch (e) {
-      await browser.call(() => this.eyes.abortIfNotClosed());
+    /**
+     * Gets executed just before initialising the webdriver session and test framework. It allows you
+     * to manipulate configurations depending on the capability or spec.
+     *
+     * @param {Object} config wdio configuration object
+     * @param {Array.<Object>} capabilities list of capabilities details
+     * @param {Array.<String>} specs List of spec file paths that are to be run
+     */
+    beforeSession(config, capabilities, specs) {
+        const eyesConfig = config.eyes;
+        if (eyesConfig) {
+            this.eyes.setConfiguration(eyesConfig);
+        }
     }
-  }
 
+    /**
+     * Gets executed before test execution begins. At this point you can access to all global
+     * variables like `browser`. It is the perfect place to define custom commands.
+     *
+     * @param {Array.<Object>} capabilities list of capabilities details
+     * @param {Array.<String>} specs List of spec file paths that are to be run
+     */
+    before(capabilities, specs) {
+        // deprecated, alias of eyesCheck
+        global.browser.addCommand('eyesCheckWindow', (title, checkSettings = Target.window().fully()) => {
+            return this.eyes.check(title, checkSettings);
+        });
+
+        global.browser.addCommand('eyesCheck', (title, checkSettings = Target.window().fully()) => {
+            return this.eyes.check(title, checkSettings);
+        });
+
+        global.browser.addCommand('eyesSetScrollRootElement', (element) => {
+            return this.eyes.setScrollRootElement(element);
+        });
+    }
+
+    /**
+     * Function to be executed before a test (in Mocha/Jasmine) or a step (in Cucumber) starts.
+     *
+     * @param {Object} test test details
+     */
+    async beforeTest(test) {
+        const appName = this.eyes.getConfiguration().getAppName() || test.parent;
+        const testName = this.eyes.getConfiguration().getTestName() || test.title;
+        const viewport = this.eyes.getConfiguration().getViewportSize() || DEFAULT_VIEWPORT;
+
+        await global.browser.call(() => this.eyes.open(global.browser, appName, testName, viewport));
+        global.browser.eyesTestStarted = true;
+    }
+
+    /**
+     * Function to be executed after a test (in Mocha/Jasmine) or a step (in Cucumber) ends.
+     *
+     * @param {Object} test test details
+     */
+    async afterTest(test) {
+        global.browser.eyesTestResults = await global.browser.call(() => this.eyes.close(false));
+    }
+
+    /**
+     * Gets executed after all tests are done. You still have access to all global variables from
+     * the test.
+     * @param {Number} result 0 - test pass, 1 - test fail
+     * @param {Array.<Object>} capabilities list of capabilities details
+     * @param {Array.<String>} specs List of spec file paths that ran
+     */
+    async after(result, capabilities, specs) {
+        await global.browser.call(() => this.eyes.abortIfNotClosed());
+    }
 }
 
 exports.EyesService = EyesService;
