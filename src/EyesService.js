@@ -10,9 +10,9 @@ const DEFAULT_VIEWPORT = {
 
 class EyesService {
     constructor() {
-        this.eyes = new Eyes();
+        this._eyes = new Eyes();
 
-        this.eyes.setHideScrollbars(true);
+        this._eyes.setHideScrollbars(true);
     }
 
     /**
@@ -24,9 +24,9 @@ class EyesService {
      * @param {Array.<String>} specs List of spec file paths that are to be run
      */
     beforeSession(config, capabilities, specs) {
-        this.eyesConfig = config.eyes;
-        if (this.eyesConfig) {
-            this.eyes.setConfiguration(this.eyesConfig);
+        this._eyesConfig = config.eyes;
+        if (this._eyesConfig) {
+            this._eyes.setConfiguration(this._eyesConfig);
         }
     }
 
@@ -41,8 +41,8 @@ class EyesService {
         global.browser.addCommand('eyesCheck', async (title, checkSettings = Target.window().fully()) => {
             await this._eyesOpen();
 
-            const matchResult = await this.eyes.check(title, checkSettings);
-            if (this.eyesConfig.throwErrorIfNotAsExpected && !matchResult.getAsExpected()) {
+            const matchResult = await this._eyes.check(title, checkSettings);
+            if (this._eyesConfig.throwErrorIfNotAsExpected && !matchResult.getAsExpected()) {
                 throw new Error('Eyes detected visual mismatch!');
             }
             return matchResult;
@@ -54,33 +54,33 @@ class EyesService {
         });
 
         global.browser.addCommand('eyesSetScrollRootElement', (element) => {
-            return this.eyes.setScrollRootElement(element);
+            return this._eyes.setScrollRootElement(element);
         });
 
         global.browser.addCommand('eyesAddProperty', (tagName, tagValue) => {
-            return this.eyes.addProperty(tagName, tagValue);
+            return this._eyes.addProperty(tagName, tagValue);
         });
 
         global.browser.addCommand('eyesClearProperties', () => {
-            return this.eyes.clearProperties();
+            return this._eyes.clearProperties();
         });
 
         global.browser.addCommand('eyesGetTestResults', async () => {
             // because `afterTest` executes after `afterEach`, this is the way to get results in `afterEach` or `it`
             await this._eyesClose();
-            return this.testResults;
+            return this._testResults;
         });
 
         global.browser.addCommand('eyesSetConfiguration', (configuration) => {
-            return this.eyes.setConfiguration(configuration);
+            return this._eyes.setConfiguration(configuration);
         });
 
         global.browser.addCommand('eyesGetConfiguration', () => {
-            return this.eyes.getConfiguration();
+            return this._eyes.getConfiguration();
         });
 
         global.browser.addCommand('eyesGetAllTestResults', async () => {
-            return this.eyes.getRunner().getAllTestResults();
+            return this._eyes.getRunner().getAllTestResults();
         });
     }
 
@@ -90,8 +90,8 @@ class EyesService {
      * @param {Object} test test details
      */
     async beforeTest(test) {
-        this.currentTestSuite = test.parent;
-        this.currentTestName = test.title;
+        this._currentTestSuite = test.parent;
+        this._currentTestName = test.title;
     }
 
     /**
@@ -112,26 +112,26 @@ class EyesService {
      * @param {Array.<String>} specs List of spec file paths that ran
      */
     async after(result, capabilities, specs) {
-        await global.browser.call(async () => this.eyes.abort());
+        await global.browser.call(async () => this._eyes.abort());
     }
 
     async _eyesOpen() {
-        if (!this.eyes.getIsOpen()) {
-            this.testResults = null;
+        if (!this._eyes.getIsOpen()) {
+            this._testResults = null;
 
-            const appName = this.eyes.getConfiguration().getAppName() || this.currentTestSuite;
-            const testName = this.eyes.getConfiguration().getTestName() || this.currentTestName;
-            const viewport = this.eyes.getConfiguration().getViewportSize() || DEFAULT_VIEWPORT;
+            const appName = this._eyes.getConfiguration().getAppName() || this._currentTestSuite;
+            const testName = this._eyes.getConfiguration().getTestName() || this._currentTestName;
+            const viewport = this._eyes.getConfiguration().getViewportSize() || DEFAULT_VIEWPORT;
 
-            await global.browser.call(async () => this.eyes.open(global.browser, appName, testName, viewport));
+            await global.browser.call(async () => this._eyes.open(global.browser, appName, testName, viewport));
         }
     }
 
     async _eyesClose() {
-        if (this.eyes.getIsOpen()) {
-            this.testResults = await this.eyes.close(false);
+        if (this._eyes.getIsOpen()) {
+            this._testResults = await this._eyes.close(false);
         }
-        return this.testResults;
+        return this._testResults;
     }
 }
 
