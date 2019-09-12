@@ -64,6 +64,7 @@ class EyesService {
         });
 
         global.browser.addCommand('eyesGetTestResults', async () => {
+            // because `afterTest` executes after `afterEach`, this is the way to get results in `afterEach` or `it`
             if (this.eyes.getIsOpen() && !this.testResults) {
                 this.testResults = await this.eyes.close(false);
             }
@@ -101,6 +102,7 @@ class EyesService {
 
     /**
      * Function to be executed after a test (in Mocha/Jasmine) or a step (in Cucumber) ends.
+     * This function will be executed after `afterEach` (in Mocha).
      *
      * @param {Object} test test details
      */
