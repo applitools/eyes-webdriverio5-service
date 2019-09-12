@@ -107,7 +107,9 @@ class EyesService {
      * @param {Object} test test details
      */
     async afterTest(test) {
-        this.testResults = await global.browser.call(async () => this.eyes.close(true));
+        if (this.eyes.getIsOpen()) {
+            this.testResults = await global.browser.call(async () => this.eyes.close(false));
+        }
     }
 
     /**
