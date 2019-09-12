@@ -39,6 +39,8 @@ class EyesService {
      */
     before(capabilities, specs) {
         global.browser.addCommand('eyesCheck', async (title, checkSettings = Target.window().fully()) => {
+            await this._eyesOpen();
+
             const matchResult = await this.eyes.check(title, checkSettings);
             if (this.eyesConfig.throwErrorIfNotAsExpected && !matchResult.getAsExpected()) {
                 throw new Error('Eyes detected visual mismatch!');
@@ -65,10 +67,7 @@ class EyesService {
 
         global.browser.addCommand('eyesGetTestResults', async () => {
             // because `afterTest` executes after `afterEach`, this is the way to get results in `afterEach` or `it`
-            if (this.eyes.getIsOpen() && !this.testResults) {
-                this.testResults = await this.eyes.close(false);
-            }
-
+            await this._eyesClose();
             return this.testResults;
         });
 
@@ -91,13 +90,8 @@ class EyesService {
      * @param {Object} test test details
      */
     async beforeTest(test) {
-        this.testResults = null;
-
-        const appName = this.eyes.getConfiguration().getAppName() || test.parent;
-        const testName = this.eyes.getConfiguration().getTestName() || test.title;
-        const viewport = this.eyes.getConfiguration().getViewportSize() || DEFAULT_VIEWPORT;
-
-        await global.browser.call(async () => this.eyes.open(global.browser, appName, testName, viewport));
+        this.currentTestSuite = test.parent;
+        this.currentTestName = test.title;
     }
 
     /**
@@ -107,9 +101,7 @@ class EyesService {
      * @param {Object} test test details
      */
     async afterTest(test) {
-        if (this.eyes.getIsOpen()) {
-            this.testResults = await global.browser.call(async () => this.eyes.close(false));
-        }
+        await global.browser.call(async () => this._eyesClose());
     }
 
     /**
@@ -121,6 +113,25 @@ class EyesService {
      */
     async after(result, capabilities, specs) {
         await global.browser.call(async () => this.eyes.abort());
+    }
+
+    async _eyesOpen() {
+        if (!this.eyes.getIsOpen()) {
+            this.testResults = null;
+
+            const appName = this.eyes.getConfiguration().getAppName() || this.currentTestSuite;
+            const testName = this.eyes.getConfiguration().getTestName() || this.currentTestName;
+            const viewport = this.eyes.getConfiguration().getViewportSize() || DEFAULT_VIEWPORT;
+
+            await global.browser.call(async () => this.eyes.open(global.browser, appName, testName, viewport));
+        }
+    }
+
+    async _eyesClose() {
+        if (this.eyes.getIsOpen()) {
+            this.testResults = await this.eyes.close(false);
+        }
+        return this.testResults;
     }
 }
 
