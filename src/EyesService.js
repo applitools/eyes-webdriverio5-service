@@ -50,6 +50,25 @@ class EyesService {
         global.browser.addCommand('eyesSetScrollRootElement', (element) => {
             return this.eyes.setScrollRootElement(element);
         });
+
+        global.browser.addCommand('eyesTag', (tagName, tagValue) => {
+            return this.eyes.addProperty(tagName, tagValue);
+        });
+
+        global.browser.addCommand('eyesClearTags', () => {
+            return this.eyes.clearProperties();
+        });
+
+        global.browser.addCommand('getTestResults', () => {
+            if (this.eyes.getIsOpen()) {
+                return this._eyesClose();
+            } else {
+            }
+        });
+
+        global.browser.addCommand('getAllTestResults', () => {
+            return this.eyes.getRunner().getAllTestResults();
+        });
     }
 
     /**
