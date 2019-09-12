@@ -8,14 +8,6 @@ describe('EyesServiceTest', () => {
     browser.url('http://applitools.github.io/demo/TestPages/FramesTestPage/');
   });
 
-  afterEach(() => {
-    // console.log(browser.getTestResults()._name);
-  });
-
-  after(() => {
-    // console.log(browser.getAllTestResults());
-  });
-
   it('checkWindow', () => {
     browser.eyesCheckWindow('main');
   });
@@ -25,17 +17,17 @@ describe('EyesServiceTest', () => {
   });
 
   it('checkRegion', () => {
-    browser.eyesCheckWindow('region', Target.region(By.id("overflowing-div")));
+    browser.eyesCheck('region', Target.region(By.id("overflowing-div")));
   });
 
   it('checkFrame', () => {
-    browser.eyesCheckWindow('frame', Target.frame("frame1"));
+    browser.eyesCheck('frame', Target.frame("frame1"));
   });
 
   afterEach(() => {
     /** @type {TestResults} */
-    const testResults = browser.eyesTestResults;
-    if (global.browser.eyesTestStarted && testResults) {
+    const testResults = browser.eyesGetTestResults();
+    if (testResults) {
       if (testResults.isPassed()) {
         console.log(`${testResults.getTestName()} is passed.`);
       } else {
