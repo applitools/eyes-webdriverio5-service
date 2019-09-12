@@ -64,15 +64,11 @@ class EyesService {
         });
 
         global.browser.addCommand('eyesGetTestResults', async () => {
-            if (this.eyes.getIsOpen()) {
-                throw new Error('Eyes is not closed yet, the test will be closed automatically in `afterTest`.');
+            if (this.eyes.getIsOpen() && !this.testResults) {
+                this.testResults = await this.eyes.close(false);
             }
 
             return this.testResults;
-        });
-
-        global.browser.addCommand('eyesGetIsOpen', () => {
-            return this.eyes.getIsOpen();
         });
 
         global.browser.addCommand('eyesSetConfiguration', (configuration) => {
@@ -94,6 +90,8 @@ class EyesService {
      * @param {Object} test test details
      */
     async beforeTest(test) {
+        this.testResults = null;
+
         const appName = this.eyes.getConfiguration().getAppName() || test.parent;
         const testName = this.eyes.getConfiguration().getTestName() || test.title;
         const viewport = this.eyes.getConfiguration().getViewportSize() || DEFAULT_VIEWPORT;
