@@ -1,8 +1,4 @@
-Run 
-```bash
-npm run link
-```
-before 
+Run
 ```bash
 npm test
 ```
