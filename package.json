@@ -33,7 +33,7 @@
     "mocha": "^6.2.0"
   },
   "scripts": {
-    "test": "wdio ./test/wdio.conf.js"
+    "test": "wdio tests/wdio.conf.js"
   },
   "license": "ISC",
   "engines": {

@@ -57,8 +57,8 @@ class EyesService {
             return this._eyes.setScrollRootElement(element);
         });
 
-        global.browser.addCommand('eyesAddProperty', (tagName, tagValue) => {
-            return this._eyes.addProperty(tagName, tagValue);
+        global.browser.addCommand('eyesAddProperty', (key, value) => {
+            return this._eyes.addProperty(key, value);
         });
 
         global.browser.addCommand('eyesClearProperties', () => {
@@ -73,6 +73,10 @@ class EyesService {
 
         global.browser.addCommand('eyesSetConfiguration', (configuration) => {
             return this._eyes.setConfiguration(configuration);
+        });
+
+        global.browser.addCommand('eyesGetIsOpen', () => {
+            return this._eyes.getIsOpen();
         });
 
         global.browser.addCommand('eyesGetConfiguration', () => {

@@ -1,26 +1,36 @@
 'use strict';
 
+const assert = require('assert');
 const {By, Target} = require('@applitools/eyes-webdriverio');
 
 describe('EyesServiceTest', () => {
 
   beforeEach(() => {
     browser.url('http://applitools.github.io/demo/TestPages/FramesTestPage/');
+    browser.eyesClearProperties();
+  });
+
+  it('an empty test without check', () => {
+    assert.strictEqual(browser.eyesGetIsOpen(), false);
   });
 
   it('checkWindow', () => {
+    assert.strictEqual(browser.eyesGetIsOpen(), false);
     browser.eyesCheckWindow('main');
+    assert.strictEqual(browser.eyesGetIsOpen(), true);
   });
 
   it('checkWindow - no title', () => {
+    assert.strictEqual(browser.eyesGetConfiguration().getProperties().length, 0);
+    browser.eyesAddProperty('testProp', 'foobar');
+    assert.strictEqual(browser.eyesGetConfiguration().getProperties().length, 1);
+
     browser.eyesCheckWindow();
   });
 
-  it('checkRegion', () => {
+  it('checkRegion and checkFrame', () => {
     browser.eyesCheck('region', Target.region(By.id("overflowing-div")));
-  });
 
-  it('checkFrame', () => {
     browser.eyesCheck('frame', Target.frame("frame1"));
   });
 
