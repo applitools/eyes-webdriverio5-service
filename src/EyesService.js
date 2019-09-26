@@ -2,7 +2,6 @@
 
 const {Eyes, Target} = require('@applitools/eyes-webdriverio');
 
-
 const DEFAULT_VIEWPORT = {
     width: 800,
     height: 600
@@ -11,6 +10,7 @@ const DEFAULT_VIEWPORT = {
 class EyesService {
     constructor() {
         this._eyes = new Eyes();
+        this._scrollRootElement = undefined;
 
         this._eyes.setHideScrollbars(true);
     }
@@ -54,7 +54,7 @@ class EyesService {
         });
 
         global.browser.addCommand('eyesSetScrollRootElement', (element) => {
-            return this._eyes.setScrollRootElement(element);
+            this._scrollRootElement = element;
         });
 
         global.browser.addCommand('eyesAddProperty', (key, value) => {
@@ -112,6 +112,9 @@ class EyesService {
      * @param {Object} test test details
      */
     afterTest(test) {
+        // the next line is required because if we set an element in one test, then the following test
+        // will say that the element is not attached to the page (because different browsers are used)
+        this._eyes._scrollRootElement = undefined;
         global.browser.call(() => this._eyesClose());
     }
 
@@ -130,6 +133,11 @@ class EyesService {
         if (!this._eyes.getIsOpen()) {
             this._testResults = null;
             await this._eyes.open(global.browser);
+        }
+
+        if (this._scrollRootElement) {
+            await this._eyes.setScrollRootElement(this._scrollRootElement);
+            this._scrollRootElement = undefined;
         }
     }
 
