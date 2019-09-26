@@ -15,7 +15,7 @@
 ### Added
 - Added `eyesSetScrollRootElement` command.
 
-## [1.0.1] - 2019-08-06
+## [1.0.1] - 2019-05-19
 ### Added
 - First release.
  
