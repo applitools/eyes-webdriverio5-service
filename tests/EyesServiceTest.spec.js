@@ -39,7 +39,7 @@ describe('EyesServiceTest', () => {
     const testResults = browser.eyesGetTestResults();
     if (testResults) {
       if (testResults.isPassed()) {
-        console.log(`${testResults.getTestName()} is passed.`);
+        console.log(`${testResults.getName()} is passed.`);
       } else {
         console.log(`Test is not passed: ${testResults.getMismatches()} out of ${testResults.getSteps()} failed.`);
         console.log(`Step details URL: ${testResults.getAppUrls().getSession()}`);
