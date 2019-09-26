@@ -93,9 +93,16 @@ class EyesService {
      *
      * @param {Object} test test details
      */
-    async beforeTest(test) {
-        this._currentTestSuite = test.parent;
-        this._currentTestName = test.title;
+    beforeTest(test) {
+        this._eyes.getConfiguration().setTestName(test.title);
+
+        if (!this._eyes.getConfiguration().getAppName()) {
+            this._eyes.getConfiguration().setAppName(test.parent);
+        }
+
+        if (!this._eyes.getConfiguration().getViewportSize()) {
+            this._eyes.getConfiguration().setViewportSize(DEFAULT_VIEWPORT);
+        }
     }
 
     /**
@@ -104,8 +111,8 @@ class EyesService {
      *
      * @param {Object} test test details
      */
-    async afterTest(test) {
-        await global.browser.call(async () => this._eyesClose());
+    afterTest(test) {
+        global.browser.call(() => this._eyesClose());
     }
 
     /**
@@ -115,19 +122,14 @@ class EyesService {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {Array.<String>} specs List of spec file paths that ran
      */
-    async after(result, capabilities, specs) {
-        await global.browser.call(async () => this._eyes.abort());
+    after(result, capabilities, specs) {
+        global.browser.call(() => this._eyes.abort());
     }
 
     async _eyesOpen() {
         if (!this._eyes.getIsOpen()) {
             this._testResults = null;
-
-            const appName = this._eyes.getConfiguration().getAppName() || this._currentTestSuite;
-            const testName = this._eyes.getConfiguration().getTestName() || this._currentTestName;
-            const viewport = this._eyes.getConfiguration().getViewportSize() || DEFAULT_VIEWPORT;
-
-            await global.browser.call(async () => this._eyes.open(global.browser, appName, testName, viewport));
+            await this._eyes.open(global.browser);
         }
     }
 
@@ -135,7 +137,6 @@ class EyesService {
         if (this._eyes.getIsOpen()) {
             this._testResults = await this._eyes.close(false);
         }
-        return this._testResults;
     }
 }
 
