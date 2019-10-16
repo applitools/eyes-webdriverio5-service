@@ -2,7 +2,7 @@
 
 const {By, Target} = require('@applitools/eyes-webdriverio');
 
-describe('EyesServiceTest', () => {
+describe('EyesServiceNytTest', () => {
 
   beforeEach(() => {
     browser.url('https://www.nytimes.com/');
@@ -11,7 +11,11 @@ describe('EyesServiceTest', () => {
   it('checkWindow', async () => {
     await browser.eyesSetScrollRootElement(By.tagName('body'));
 
-    await browser.eyesCheckWindow('Homepage', Target.window().fully());
+    await browser.eyesCheckWindow('Homepage');
+  });
+
+  it('checkRegion', async () => {
+    await browser.eyesCheck('Footer links', Target.region(By.id('site-index')).fully());
   });
 
 });
