@@ -144,6 +144,7 @@ exports.config = {
       {name: 'propName', value: 'propValue'}
     ]
   },
+  enableEyesLogs: true,
   //
   // =====
   // Hooks
