@@ -20,7 +20,7 @@
   },
   "main": "index.js",
   "dependencies": {
-    "@applitools/eyes-webdriverio": "^5.7.2"
+    "@applitools/eyes-webdriverio": "^5.8.1"
   },
   "devDependencies": {
     "@wdio/cli": "^5.13.0",
