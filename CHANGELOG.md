@@ -1,3 +1,6 @@
+## [1.2.1] - 2019-09-26
+### Fixed
+- Updated dependencies for underlying ignore regions fix. [Ticket](https://trello.com/c/E97HesbG)
 
 ## [1.2.1] - 2019-09-26
 ### Added
