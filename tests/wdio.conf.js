@@ -138,7 +138,7 @@ exports.config = {
     timeout: 60000
   },
   eyes: {
-    batch: { id: 'BatchId', name: 'WebDriverIO eyes-service tests' },
+    // batch: { id: 'BatchId', name: 'WebDriverIO eyes-service tests' },
     // stitchMode: 'CSS',
     properties: [
       {name: 'propName', value: 'propValue'}
