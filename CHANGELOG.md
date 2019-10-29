@@ -1,4 +1,8 @@
-## [1.2.1] - 2019-09-26
+## [1.2.3] - 2019-10-29
+### Fixed
+- Setting viewportSize through configuration. [Ticket](https://trello.com/c/yPqI3erm)
+
+## [1.2.2] - 2019-10-24
 ### Fixed
 - Updated dependencies for underlying ignore regions fix. [Ticket](https://trello.com/c/E97HesbG)
 
