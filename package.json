@@ -20,7 +20,7 @@
   },
   "main": "index.js",
   "dependencies": {
-    "@applitools/eyes-webdriverio": "https://github.com/applitools/eyes.webdriverio.javascript5.git#develop"
+    "@applitools/eyes-webdriverio": "^5.8.2"
   },
   "devDependencies": {
     "@wdio/cli": "^5.13.0",
