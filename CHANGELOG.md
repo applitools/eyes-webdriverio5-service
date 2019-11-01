@@ -1,4 +1,4 @@
-## [1.2.3] - 2019-10-29
+## [unversioned] 
 ### Fixed
 - Setting viewportSize through configuration. [Ticket](https://trello.com/c/yPqI3erm)
 
