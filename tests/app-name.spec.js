@@ -31,11 +31,19 @@ describe('appName2', () => {
 describe('appName3', () => {
   beforeEach(() => {
     browser.url(url);
-    browser.eyesGetConfiguration().setAppName('appName3!!!');
+    browser.eyesGetConfiguration().setAppName('appName3_');
   });
 
   it('check3', () => {
     browser.eyesCheck('region');
-    equal('appName3', browser.eyesGetConfiguration().getAppName())
+    equal('appName3_', browser.eyesGetConfiguration().getAppName())
+  });
+});
+
+describe('appName4', () => {
+  it('check4', () => {
+    browser.eyesGetConfiguration().setAppName('appName4_1');
+    browser.eyesCheck('region');
+    equal('appName4_1', browser.eyesGetConfiguration().getAppName())
   });
 });
