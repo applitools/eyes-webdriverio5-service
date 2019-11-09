@@ -1,6 +1,7 @@
 ## [unversioned] 
 ### Fixed
 - Setting viewportSize through configuration. [Ticket](https://trello.com/c/yPqI3erm)
+- Set appName from describe tag. [Ticket](https://trello.com/c/gIlKtwZU)
 
 ## [1.2.2] - 2019-10-24
 ### Fixed
