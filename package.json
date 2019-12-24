@@ -35,7 +35,7 @@
   "scripts": {
     "test": "wdio tests/wdio.conf.js"
   },
-  "license": "ISC",
+  "license": "SEE LICENSE IN LICENSE",
   "engines": {
     "node": ">=8.9.0"
   }
