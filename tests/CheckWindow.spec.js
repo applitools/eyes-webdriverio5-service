@@ -3,35 +3,38 @@
 const assert = require('assert');
 const {By, Target} = require('@applitools/eyes-webdriverio');
 
-describe('EyesServiceTest', () => {
+describe('CheckWindow', () => {
 
   beforeEach(() => {
     browser.url('http://applitools.github.io/demo/TestPages/FramesTestPage/');
-    browser.eyesClearProperties();
   });
 
-  it('an empty test without check', () => {
+  it('eyesOpen', () => {
     assert.strictEqual(browser.eyesGetIsOpen(), false);
   });
 
   it('checkWindow', () => {
     assert.strictEqual(browser.eyesGetIsOpen(), false);
-    browser.eyesCheckWindow('main');
+    browser.eyesCheckWindow();
     assert.strictEqual(browser.eyesGetIsOpen(), true);
   });
 
-  it('checkWindow - no title', () => {
-    assert.strictEqual(browser.eyesGetConfiguration().getProperties().length, 0);
-    browser.eyesAddProperty('testProp', 'foobar');
-    assert.strictEqual(browser.eyesGetConfiguration().getProperties().length, 1);
-
-    browser.eyesCheckWindow();
+  it('checkRegion', () => {
+    browser.eyesCheck('region', Target.region(By.id("overflowing-div")));
   });
 
-  it('checkRegion and checkFrame', () => {
-    browser.eyesCheck('region', Target.region(By.id("overflowing-div")));
-
+  it('checkFrame & GetTestResults', () => {
     browser.eyesCheck('frame', Target.frame("frame1"));
+
+    /** @type {TestResults} */
+    const testResults = browser.eyesGetTestResults();
+    assert.strictEqual(true, testResults.isPassed());
+  });
+
+  it('eyesGetAllTestResults (depends of previous tests)', () => {
+    /** @type {TestResultSummary} */
+    const testResults = browser.eyesGetAllTestResults();
+    assert.strictEqual(3, testResults.getAllResults().length);
   });
 
   afterEach(() => {
